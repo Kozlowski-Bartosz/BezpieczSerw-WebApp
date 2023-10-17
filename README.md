@@ -20,7 +20,7 @@
 
 ```bash
 $ # Get the code
-$ git clone https://github.com/appseed-projects/<YOUR_BUILD_ID>.git
+$ git clone <GIT_REPO_URL>
 $ cd <YOUR_BUILD_ID>
 ```
 
