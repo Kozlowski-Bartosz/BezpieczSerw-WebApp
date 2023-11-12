@@ -19,7 +19,7 @@ jobs:
             
         run: |
           echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
-          ssh -i private_key -J ${USER_NAME}@${BASTION_HOSTNAME} ${USER_NAME}@${HOSTNAME} '
+          ssh -i private_key -J ${USER_NAME}@${BASTION_HOSTNAME}:22 ${USER_NAME}@${HOSTNAME} '
           
             #Now we have got the access of EC2 and we will start the deploy .
             cd /home/ubuntu/BezpieczSerw-WebApp &&
