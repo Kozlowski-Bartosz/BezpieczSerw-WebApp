@@ -19,4 +19,12 @@ jobs:
             
         run: |
           echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
-          ssh -i private_key -o StrictHostKeyChecking=no ${USER_NAME}@${BASTION_HOSTNAME} -vvv
+          ssh -o StrictHostKeyChecking=no -i private_key -J ${USER_NAME}@${BASTION_HOSTNAME} ${USER_NAME}@${HOSTNAME} -vvv '
+          
+            cd /home/ubuntu/BezpieczSerw-WebApp &&
+            git checkout main &&
+            git fetch --all &&
+            git reset --hard origin/main &&
+            git pull origin main &&
+            docker-compose -f docker-compose.yml up -d --build 
+          '
