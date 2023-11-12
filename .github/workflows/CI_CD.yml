@@ -16,9 +16,10 @@ jobs:
             HOSTNAME : ${{ secrets.HOSTNAME  }}
             BASTION_HOSTNAME : ${{ secrets.BASTION_HOSTNAME  }}
             USER_NAME : ${{ secrets.USER_NAME  }}
-            
         run: |
-          echo "$PRIVATE_KEY" > ~/.ssh/private_key && chmod 600 ~/.ssh/private_key
+          mkdir -p ~/.ssh/
+          echo "$PRIVATE_KEY" > ~/.ssh/private_key
+          chmod 600 ~/.ssh/private_key
           cat >>~/.ssh/config <<END
           Host bastion-host
             hostname ${BASTION_HOSTNAME}
