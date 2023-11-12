@@ -18,8 +18,25 @@ jobs:
             USER_NAME : ${{ secrets.USER_NAME  }}
             
         run: |
-          echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
-          ssh -vvv -tt -o StrictHostKeyChecking=no -i private_key -J ${USER_NAME}@${BASTION_HOSTNAME} ${USER_NAME}@${HOSTNAME} '
+          echo "$PRIVATE_KEY" > ~/.ssh/private_key && chmod 600 ~/.ssh/private_key
+          cat >>~/.ssh/config <<END
+          Host bastion-host
+            hostname ${BASTION_HOSTNAME}
+            user ${USER_NAME}
+            port 22
+            IdentityFile ~/.ssh/staging.key
+            IdentitiesOnly yes
+            StrictHostKeyChecking no
+          Host webapp
+            hostname ${HOSTNAME}
+            user ${USER_NAME}
+            port 22
+            IdentityFile ~/.ssh/staging.key
+            IdentitiesOnly yes
+            ProxyJump bastion-host
+            StrictHostKeyChecking no
+          END
+          ssh webapp '
           
             cd /home/ubuntu/BezpieczSerw-WebApp &&
             git checkout main &&
