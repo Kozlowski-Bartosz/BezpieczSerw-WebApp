@@ -10,7 +10,7 @@ jobs:
     
     steps:
       - uses: actions/checkout@v2 
-      - name: Deploy in EC2
+      - name: Configure SSH
         env:
             PRIVATE_KEY: ${{ secrets.AWS_PRIVATE_KEY  }}
             HOSTNAME : ${{ secrets.HOSTNAME  }}
@@ -18,25 +18,28 @@ jobs:
             USER_NAME : ${{ secrets.USER_NAME  }}
         run: |
           mkdir -p ~/.ssh/
-          echo "$PRIVATE_KEY" > ~/.ssh/private_key
-          chmod 600 ~/.ssh/private_key
-          cat >>~/.ssh/config <<END
-          Host bastion-host
-            hostname ${BASTION_HOSTNAME}
-            user ${USER_NAME}
-            port 22
-            IdentityFile ~/.ssh/private_key
-            IdentitiesOnly yes
-            StrictHostKeyChecking no
-          Host webapp
-            hostname ${HOSTNAME}
-            user ${USER_NAME}
-            port 22
-            IdentityFile ~/.ssh/private_key
-            IdentitiesOnly yes
-            ProxyJump bastion-host
-            StrictHostKeyChecking no
-          END
+            echo "$PRIVATE_KEY" > ~/.ssh/private_key
+            chmod 600 ~/.ssh/private_key
+            cat >>~/.ssh/config <<END
+            Host bastion-host
+              hostname ${BASTION_HOSTNAME}
+              user ${USER_NAME}
+              port 22
+              IdentityFile ~/.ssh/private_key
+              IdentitiesOnly yes
+              StrictHostKeyChecking no
+            Host webapp
+              hostname ${HOSTNAME}
+              user ${USER_NAME}
+              port 22
+              IdentityFile ~/.ssh/private_key
+              IdentitiesOnly yes
+              ProxyJump bastion-host
+              StrictHostKeyChecking no
+            END
+        
+      - name: Deploy in EC2
+        run: |
           ssh webapp '
           
             cd /home/ubuntu/BezpieczSerw-WebApp &&
