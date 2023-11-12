@@ -42,6 +42,7 @@ jobs:
         run: |
           ssh webapp '
           
+            sudo su
             cd /home/ubuntu/BezpieczSerw-WebApp &&
             git checkout main &&
             git fetch --all &&
