@@ -19,7 +19,7 @@ jobs:
             
         run: |
           echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
-          ssh -o StrictHostKeyChecking=no -i private_key -J ${USER_NAME}@${BASTION_HOSTNAME} ${USER_NAME}@${HOSTNAME} -tt -vvv '
+          ssh -vvv -tt -o StrictHostKeyChecking=no -i private_key -J ${USER_NAME}@${BASTION_HOSTNAME} ${USER_NAME}@${HOSTNAME} '
           
             cd /home/ubuntu/BezpieczSerw-WebApp &&
             git checkout main &&
