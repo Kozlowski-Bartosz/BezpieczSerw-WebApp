@@ -49,6 +49,7 @@ jobs:
             git pull origin main
           '
 
+      - uses: actions/checkout@v2 
       - name: Add DB data
         run: |
           ssh webapp '
