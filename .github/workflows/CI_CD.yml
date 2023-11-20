@@ -7,6 +7,16 @@ on:
 jobs:
   Deploy:
     runs-on: ubuntu-latest
+
+    env:
+       PRIVATE_KEY: ${{ secrets.AWS_PRIVATE_KEY  }}
+       HOSTNAME : ${{ secrets.HOSTNAME  }}
+       BASTION_HOSTNAME : ${{ secrets.BASTION_HOSTNAME  }}
+       USER_NAME : ${{ secrets.USER_NAME  }}
+       DB_HOST: ${{ secrets.DB_HOST  }}
+       DB_USERNAME : ${{ secrets.DB_USERNAME  }}
+       DB_PASS : ${{ secrets.DB_PASS  }}
+       DB_NAME : ${{ secrets.DB_NAME  }}
     
     steps:
       - uses: actions/checkout@v2 
@@ -32,11 +42,6 @@ jobs:
             ProxyJump bastion-host
             StrictHostKeyChecking no
           END
-        env:
-          PRIVATE_KEY: ${{ secrets.AWS_PRIVATE_KEY  }}
-          HOSTNAME : ${{ secrets.HOSTNAME  }}
-          BASTION_HOSTNAME : ${{ secrets.BASTION_HOSTNAME  }}
-          USER_NAME : ${{ secrets.USER_NAME  }}
         
       - name: Deploy in EC2
         run: |
@@ -61,11 +66,6 @@ jobs:
             echo "DB_PASS=$DB_PASS" >> .env &&
             echo "DB_PORT=3306" >> .env
            '
-        env:
-          DB_HOST: ${{ secrets.DB_HOST  }}
-          DB_USERNAME : ${{ secrets.DB_USERNAME  }}
-          DB_PASS : ${{ secrets.DB_PASS  }}
-          DB_NAME : ${{ secrets.DB_NAME  }}
         
       - name: Docker compose
         run: |
