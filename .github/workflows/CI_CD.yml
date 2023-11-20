@@ -54,13 +54,13 @@ jobs:
         run: |
           ssh webapp '
           
-            cd /home/ubuntu/BezpieczSerw-WebApp &&
-            echo DB_ENGINE=mysql >> .env &&
-            echo DB_HOST=${DB_HOST} >> .env &&
-            echo DB_NAME=${DB_NAME} >> .env &&
-            echo DB_USERNAME=${DB_USERNAME} >> .env &&
-            echo DB_PASS=${DB_PASS} >> .env &&
-            echo DB_PORT=3306 >> .env
+            cd ~/BezpieczSerw-WebApp &&
+            echo "DB_ENGINE=mysql" >> .env &&
+            echo "DB_HOST=$DB_HOST" >> .env &&
+            echo "DB_NAME=$DB_NAME" >> .env &&
+            echo "DB_USERNAME=$DB_USERNAME" >> .env &&
+            echo "DB_PASS=$DB_PASS" >> .env &&
+            echo "DB_PORT=3306" >> .env
            '
         env:
           DB_HOST: ${{ secrets.DB_HOST  }}
