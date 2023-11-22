@@ -53,6 +53,7 @@ jobs:
           END
         
       - name: Deploy in EC2 host 1
+        id: ec2_1
         run: |
           ssh webapp '
           
@@ -64,6 +65,7 @@ jobs:
           '
 
       - name: Deploy in EC2 host 2
+        id: ec2_2
         run: |
           ssh webapp2 '
           
@@ -75,6 +77,8 @@ jobs:
           '
 
       - name: Add DB data
+        id: db_1
+        if: steps.ec2_1.conclusion == 'success'
         run: |
           ssh webapp '
             export DB_HOST="${{ secrets.DB_HOST }}" &&
@@ -92,6 +96,8 @@ jobs:
 
 
       - name: Add DB data host 2
+        id: db_2
+        if: steps.ec2_2.conclusion == 'success'
         run: |
           ssh webapp2 '
             export DB_HOST="${{ secrets.DB_HOST }}" &&
@@ -108,6 +114,7 @@ jobs:
            '
         
       - name: Docker compose
+        if: steps.db_1.conclusion == 'success'
         run: |
           ssh webapp '
           
@@ -116,6 +123,7 @@ jobs:
           '
 
       - name: Docker compose host 2
+        if: steps.db_2.conclusion == 'success'
         run: |
           ssh webapp2 '
           
