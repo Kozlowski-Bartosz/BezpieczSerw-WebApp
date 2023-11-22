@@ -63,16 +63,16 @@ jobs:
             git pull origin main
           '
 
-      - name: Deploy in EC2 host 2
-        run: |
-          ssh webapp2 '
-          
-            cd /home/ubuntu/BezpieczSerw-WebApp &&
-            git checkout main &&
-            git fetch --all &&
-            git reset --hard origin/main &&
-            git pull origin main
-          '
+      #- name: Deploy in EC2 host 2
+      #  run: |
+      #    ssh webapp2 '
+      #    
+      #      cd /home/ubuntu/BezpieczSerw-WebApp &&
+      #      git checkout main &&
+      #      git fetch --all &&
+      #      git reset --hard origin/main &&
+      #      git pull origin main
+      #    '
 
       - name: Add DB data
         run: |
@@ -91,21 +91,21 @@ jobs:
            '
 
 
-      - name: Add DB data host 2
-        run: |
-          ssh webapp2 '
-            export DB_HOST="${{ secrets.DB_HOST }}" &&
-            export DB_USERNAME="${{ secrets.DB_USERNAME }}" &&
-            export DB_PASS="${{ secrets.DB_PASS }}" &&
-            export DB_NAME="${{ secrets.DB_NAME }}" &&
-            cd ~/BezpieczSerw-WebApp &&
-            echo "DB_ENGINE=mysql" >> .env &&
-            echo "DB_HOST=$DB_HOST" >> .env &&
-            echo "DB_NAME=$DB_NAME" >> .env &&
-            echo "DB_USERNAME=$DB_USERNAME" >> .env &&
-            echo "DB_PASS=$DB_PASS" >> .env &&
-            echo "DB_PORT=3306" >> .env
-           '
+      #- name: Add DB data host 2
+      #  run: |
+      #    ssh webapp2 '
+      #      export DB_HOST="${{ secrets.DB_HOST }}" &&
+      #      export DB_USERNAME="${{ secrets.DB_USERNAME }}" &&
+      #      export DB_PASS="${{ secrets.DB_PASS }}" &&
+      #      export DB_NAME="${{ secrets.DB_NAME }}" &&
+      #      cd ~/BezpieczSerw-WebApp &&
+      #      echo "DB_ENGINE=mysql" >> .env &&
+      #      echo "DB_HOST=$DB_HOST" >> .env &&
+      #      echo "DB_NAME=$DB_NAME" >> .env &&
+      #      echo "DB_USERNAME=$DB_USERNAME" >> .env &&
+      #      echo "DB_PASS=$DB_PASS" >> .env &&
+      #      echo "DB_PORT=3306" >> .env
+      #     '
         
       - name: Docker compose
         run: |
@@ -115,10 +115,10 @@ jobs:
             sudo docker-compose -f docker-compose.yml up -d --build
           '
 
-      - name: Docker compose host 2
-        run: |
-          ssh webapp2 '
-          
-            cd ~/BezpieczSerw-WebApp &&
-            sudo docker-compose -f docker-compose.yml up -d --build
-          '
+      #- name: Docker compose host 2
+      #  run: |
+      #    ssh webapp2 '
+      #    
+      #      cd ~/BezpieczSerw-WebApp &&
+      #      sudo docker-compose -f docker-compose.yml up -d --build
+      #    '
