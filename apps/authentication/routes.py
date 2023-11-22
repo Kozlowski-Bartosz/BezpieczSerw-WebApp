@@ -12,8 +12,8 @@ from flask_login import (
 
 from apps import db, login_manager
 from apps.authentication import blueprint
-from apps.authentication.forms import LoginForm, CreateAccountForm
-from apps.authentication.models import Users
+from apps.authentication.forms import LoginForm, CreateAccountForm, ContactUsForm
+from apps.authentication.models import Users, ContactMessages
 
 from apps.authentication.util import verify_pass
 
@@ -92,6 +92,22 @@ def register():
     else:
         return render_template('accounts/register.html', form=create_account_form)
 
+@blueprint.route('/contact-us', methods=['GET', 'POST'])
+def contact_us():
+    contact_us_form = ContactUsForm(request.form)
+    
+    if 'contact_us' in request.form:
+        full_name = request.form['full_name']
+        email = request.form['email']
+        message = request.form['message']
+        
+        ContactMessage = ContactMessages(**request.form)
+        db.session.add(ContactMessage)
+        db.session.commit()
+        
+        return render_template('accounts/contact-us.html',
+                               success=True,
+                               form=contact_us_form)
 
 @blueprint.route('/logout')
 def logout():
