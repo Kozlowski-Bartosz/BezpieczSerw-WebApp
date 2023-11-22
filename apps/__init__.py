@@ -31,7 +31,11 @@ def configure_database(app):
     @app.before_first_request
     def initialize_database():
         try:
+            db.init_app(app)
+            from apps.authentication.models import Users
+            from apps.home.models import ContactMessages
             db.create_all()
+            db.session.commit()
         except Exception as e:
 
             print('> Error: DBMS Exception: ' + str(e) )
