@@ -13,7 +13,7 @@ resource "aws_security_group" "web_sg" {
 
   ingress {
     description = "DB traffic"
-    from_port = 1433
+    from_port = 3306
     to_port = 0
     protocol = "tcp"
     cidrblocks = ["10.0.5.0/24"]
