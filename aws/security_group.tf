@@ -13,10 +13,10 @@ resource "aws_security_group" "web_sg" {
 
   ingress {
     description = "DB traffic"
-    from_port = 5432
-    to_port = 5432
+    from_port = 1433
+    to_port = 0
     protocol = "tcp"
-    cidr_blocks = ["10.0.20.0/24","10.0.10.0/24"]
+    cidrblocks = ["10.0.5.0/24"]
   }
 
   egress {
